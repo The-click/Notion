@@ -1,0 +1,52 @@
+.spaceTitle {
+    border-radius: 10px;
+    box-shadow: 0 0 1px 2px var(--primary-color);
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 0 3px 3px var(--primary-color);
+    }
+    &:hover .setting {
+        right: 0;
+    }
+}
+.icon {
+    width: 25px;
+    height: 25px;
+}
+
+.text {
+    overflow: hidden;
+    white-space: nowrap;
+    width: auto;
+    text-overflow: ellipsis;
+}
+
+.setting {
+    transition: all 0.3s ease;
+    display: flex;
+    gap: 15px;
+    position: absolute;
+    right: -150%;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    height: 100%;
+    padding: 0 20px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: inherit;
+
+    & img {
+        width: 20px;
+    }
+    &.btn {
+    }
+}

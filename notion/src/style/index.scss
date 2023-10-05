@@ -1,0 +1,20 @@
+@import "variable";
+@import "reset";
+
+body {
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    font: var(--font-m);
+}
+
+#root {
+    height: 100vh;
+}
+
+.hat {
+    background-color: var(--invert-bg-color);
+    padding: 20px 40px;
+    border-radius: 0 0 10px 10px;
+    display: inline-block;
+    box-shadow: var(--shadow-block);
+}
