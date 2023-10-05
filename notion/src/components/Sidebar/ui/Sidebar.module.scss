@@ -3,6 +3,16 @@
     height: 100%;
     background-color: var(--invert-bg-color);
     padding: 30px 5px 5px 5px;
+
+    &:hover .addBtn {
+        opacity: 1;
+    }
+}
+.head {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
 }
 .title {
     text-align: center;
@@ -17,4 +27,22 @@
     flex-direction: column;
     justify-content: center;
     height: 95%;
+}
+.selectSpace {
+}
+
+button.addBtn {
+    box-shadow: 0 0 1px 2px var(--white-color);
+    border-radius: 50%;
+    width: fit-content;
+    transition: all 0.3s ease;
+    opacity: 0;
+    padding: 5px;
+
+    margin: 0 auto;
+
+    & img {
+        width: 23px;
+        height: 20px;
+    }
 }

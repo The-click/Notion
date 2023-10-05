@@ -1,0 +1,25 @@
+.searchBar {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    background-color: var(--invert-bg-color);
+    padding: 10px 20px 10px 20px;
+    border-radius: 10px;
+    width: 350px;
+}
+.icon {
+    width: 25px;
+    height: 25px;
+}
+.input {
+    background-color: inherit;
+    height: 2rem;
+    color: var(--primary-color);
+    width: 100%;
+}
+.addNotion {
+    & img {
+        width: 20px;
+        height: 20px;
+    }
+}

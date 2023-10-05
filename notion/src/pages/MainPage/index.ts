@@ -1,3 +1,3 @@
 export { MainPage } from "./ui/MainPage";
 
-export type { Space } from "./type/type";
+export type { Space, Notion, NotionColor, Mark } from "./type/type";

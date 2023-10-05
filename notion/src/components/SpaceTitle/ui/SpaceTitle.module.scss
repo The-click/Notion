@@ -10,9 +10,17 @@
     overflow: hidden;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: 1.2rem;
+
+    &.select {
+        box-shadow: 0 0 3px 4px var(--blue-color);
+    }
 
     &:hover {
         box-shadow: 0 0 3px 3px var(--primary-color);
+    }
+    &:hover.select {
+        box-shadow: 0 0 3px 6px var(--blue-color);
     }
     &:hover .setting {
         right: 0;

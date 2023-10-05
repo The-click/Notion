@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import clsx from "clsx";
 import cls from "./SpaceTitle.module.scss";
 import { Space } from "pages/MainPage";
@@ -13,36 +13,53 @@ interface SpaceTitleProps {
     className?: string;
     space: Space;
     changeName?: (text: string) => void;
+    changeSpace: (name: string) => void;
+    deleteSpace: (name: string) => void;
+    select: boolean;
 }
 
-export const SpaceTitle: React.FC<SpaceTitleProps> = (props) => {
-    const { className = "", space, changeName } = props;
+export const SpaceTitle: React.FC<SpaceTitleProps> = memo((props) => {
+    const {
+        className = "",
+        space,
+        changeName,
+        changeSpace,
+        deleteSpace,
+        select,
+    } = props;
 
     return (
-        <div className={clsx(cls.spaceTitle, {}, [className])}>
+        <section
+            onClick={() => changeSpace(space.name)}
+            className={clsx(cls.spaceTitle, { [cls.select]: select }, [
+                className,
+            ])}
+        >
             <img
                 className={cls.icon}
                 src={space.type === "notion" ? pencilImg : checkImg}
                 alt="icon"
             />
-            <span
+            <h2
                 onDoubleClick={() => console.log("dbl click")}
                 className={cls.text}
             >
                 {space.name}
-            </span>
-            <div className={cls.setting}>
+            </h2>
+            <div className={cls.setting} onClick={(e) => e.stopPropagation()}>
                 <MyButton className={cls.btn}>
                     <img src={secureImg} alt="secured space" />
                 </MyButton>
                 <MyButton className={cls.btn}>
                     <img src={penImg} alt="edit space" />
                 </MyButton>
-
-                <MyButton className={cls.btn}>
+                <MyButton
+                    className={cls.btn}
+                    onClick={(e) => deleteSpace(space.name)}
+                >
                     <img src={trashImg} alt="trash space" />
                 </MyButton>
             </div>
-        </div>
+        </section>
     );
-};
+});
