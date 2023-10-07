@@ -1,0 +1,56 @@
+// Modal
+
+.modal {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modalTitle {
+    margin-bottom: 50px;
+}
+.modalContent {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+.modalName {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.modalSwitch {
+    background-color: var(--invert-bg-color);
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 10px;
+    display: flex;
+    gap: 5px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+}
+
+button.modalType {
+    padding: 5px;
+    border-radius: inherit;
+    transform: all 0.3s ease;
+}
+button.modalType img {
+    width: 30px;
+}
+.modalType.active {
+    background-color: var(--blue-color);
+}
+
+button.modalSave {
+    background-color: green;
+    color: var(--primary-color);
+    font-size: initial;
+    margin: 0 auto;
+}
+
+input.modalName {
+    background-color: var(--invert-bg-color);
+}

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import clsx from "clsx";
 import cls from "./SpaceTitle.module.scss";
 import { Space } from "pages/MainPage";
@@ -12,8 +12,8 @@ import { MyButton } from "ui/Button/Button";
 interface SpaceTitleProps {
     className?: string;
     space: Space;
-    changeName?: (text: string) => void;
-    changeSpace: (name: string) => void;
+    changeSpace: (space?: Space) => void;
+    onSelectSpace: (name: string) => void;
     deleteSpace: (name: string) => void;
     select: boolean;
 }
@@ -22,15 +22,15 @@ export const SpaceTitle: React.FC<SpaceTitleProps> = memo((props) => {
     const {
         className = "",
         space,
-        changeName,
         changeSpace,
+        onSelectSpace,
         deleteSpace,
         select,
     } = props;
 
     return (
         <section
-            onClick={() => changeSpace(space.name)}
+            onClick={() => onSelectSpace(space.name)}
             className={clsx(cls.spaceTitle, { [cls.select]: select }, [
                 className,
             ])}
@@ -50,7 +50,10 @@ export const SpaceTitle: React.FC<SpaceTitleProps> = memo((props) => {
                 <MyButton className={cls.btn}>
                     <img src={secureImg} alt="secured space" />
                 </MyButton>
-                <MyButton className={cls.btn}>
+                <MyButton
+                    className={cls.btn}
+                    onClick={(e) => changeSpace(space)}
+                >
                     <img src={penImg} alt="edit space" />
                 </MyButton>
                 <MyButton

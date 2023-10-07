@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import clsx from "clsx";
 import cls from "./MainPage.module.scss";
 import { NotionColor, Space } from "../type/type";
@@ -68,39 +68,46 @@ export const MainPage: React.FC<MainPageProps> = (props) => {
         },
     ]);
 
-    const [selectSpace, setSelectSpace] = useState<Space | null>(null);
+    const [selectSpace, setSelectSpace] = useState<number>(0);
 
-    useEffect(() => {
-        if (spaces[0]) {
-            setSelectSpace(spaces[0]);
-        }
-    }, []);
-
-    const changeSpace = useCallback(
+    const onSelectSpace = useCallback(
         (name: string) => {
-            const space = spaces.find((el) => el.name === name);
-            if (space) {
-                setSelectSpace(space);
+            const index = spaces.findIndex((el) => el.name === name);
+            if (index) {
+                setSelectSpace(index);
             }
         },
         [spaces]
     );
+
     const deleteSpace = useCallback(
         (name: string) => {
             const newSpaces = spaces.filter((el) => el.name !== name);
             setSpaces(newSpaces);
-            if (name === selectSpace?.name) {
-                setSelectSpace(newSpaces[0]);
+            if (name === spaces[selectSpace].name) {
+                setSelectSpace(0);
             }
         },
         [spaces, selectSpace]
     );
+    const createSpace = useCallback(
+        (newSpace: Space) => {
+            const newSpaces = [...spaces, newSpace];
+            setSpaces(newSpaces);
+        },
+        [spaces]
+    );
+
+    const currentSpace = useMemo(() => {
+        return spaces[selectSpace];
+    }, [spaces, selectSpace]);
 
     return (
         <section className={clsx(cls.mainPage, {}, [className])}>
             <Sidebar
-                changeSpace={changeSpace}
-                selectSpace={selectSpace}
+                onSelectSpace={onSelectSpace}
+                createSpace={createSpace}
+                selectSpace={currentSpace}
                 deleteSpace={deleteSpace}
                 spaces={spaces}
                 className={cls.sidebar}
@@ -110,8 +117,8 @@ export const MainPage: React.FC<MainPageProps> = (props) => {
 
                 <SearchBar className={cls.searchBar} />
 
-                {selectSpace &&
-                    selectSpace.records.map((el) => (
+                {currentSpace &&
+                    currentSpace.records.map((el) => (
                         <Record
                             record={el}
                             key={el.title}
