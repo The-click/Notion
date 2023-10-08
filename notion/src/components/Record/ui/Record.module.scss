@@ -9,7 +9,23 @@
         right: 0;
     }
 }
+
+.secured {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 20px;
+    height: 20px;
+}
 .title {
+    font-size: var(--font-size-l);
+    overflow: hidden;
+    max-height: var(--font-line-m);
+
+    &.done {
+        text-decoration: line-through;
+        opacity: 0.8;
+    }
 }
 
 .head {
@@ -19,14 +35,21 @@
 }
 
 .text {
-    font-size: smaller;
+    font-size: 16px;
     opacity: 0.8;
     overflow: hidden;
     white-space: nowrap;
     width: auto;
     text-overflow: ellipsis;
     margin-top: 10px;
+    max-height: 50px;
 }
+
+.text img {
+    max-width: 50px;
+    max-width: 50px;
+}
+
 .setting {
     transition: all 0.3s ease;
     display: flex;

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import clsx from "clsx";
 import cls from "./Sidebar.module.scss";
 import { Space } from "pages/MainPage";
@@ -7,13 +7,15 @@ import { MyButton } from "ui/Button/Button";
 import plusImg from "assets/plus.svg";
 
 import { SpaceModal } from "components/SpaceModal";
+import { sortByTime } from "helper/sortByTime/sortByTime";
 
 interface SidebarProps {
     className?: string;
     spaces: Space[];
     onSelectSpace: (name: string) => void;
     deleteSpace: (name: string) => void;
-    createSpace: (newSpace: Space) => void;
+    createSpace: (newSpace: Space, oldName?: string) => void;
+    changeFixSpace: (name: string, value: number) => void;
     selectSpace: Space | null;
 }
 
@@ -25,24 +27,28 @@ export const Sidebar: React.FC<SidebarProps> = memo((props) => {
         selectSpace,
         deleteSpace,
         createSpace,
+        changeFixSpace,
     } = props;
 
-    const [isSpaceModal, setIsSpaceModal] = useState<Space | boolean>(false);
+    const [isSpaceModal, setIsSpaceModal] = useState<{
+        isOpen: boolean;
+        space: Space | null;
+    }>({ isOpen: false, space: null });
 
     const onAddNewspace = useCallback(
-        (newSpace: Space) => {
+        (newSpace: Space, oldName?: string) => {
             if (spaces.find((el) => el.name === newSpace.name)) return;
-            createSpace(newSpace);
+            createSpace(newSpace, oldName);
             onCloseModal();
         },
         [createSpace, spaces]
     );
 
     const onShowModal = useCallback((space?: Space) => {
-        setIsSpaceModal(space || true);
+        setIsSpaceModal({ isOpen: true, space: space ? space : null });
     }, []);
     const onCloseModal = useCallback(() => {
-        setIsSpaceModal(false);
+        setIsSpaceModal({ isOpen: false, space: null });
     }, []);
 
     return (
@@ -53,23 +59,28 @@ export const Sidebar: React.FC<SidebarProps> = memo((props) => {
                     <img src={plusImg} alt="add" />
                 </MyButton>
             </div>
-            <SpaceModal
-                isOpen={isSpaceModal}
-                onClose={onCloseModal}
-                onAddNewSpace={onAddNewspace}
-            />
+            {isSpaceModal.isOpen && (
+                <SpaceModal
+                    status={isSpaceModal}
+                    onClose={onCloseModal}
+                    onAddNewSpace={onAddNewspace}
+                />
+            )}
 
             <div className={cls.spaces}>
-                {spaces.map((el) => (
-                    <SpaceTitle
-                        select={el.name == selectSpace?.name}
-                        key={el.name}
-                        space={el}
-                        onSelectSpace={onSelectSpace}
-                        deleteSpace={deleteSpace}
-                        changeSpace={onShowModal}
-                    />
-                ))}
+                {spaces
+                    .sort((a, b) => sortByTime(a.fix, b.fix))
+                    .map((el) => (
+                        <SpaceTitle
+                            select={el.name == selectSpace?.name}
+                            key={el.name}
+                            space={el}
+                            changeFixSpace={changeFixSpace}
+                            onSelectSpace={onSelectSpace}
+                            deleteSpace={deleteSpace}
+                            changeSpace={onShowModal}
+                        />
+                    ))}
             </div>
         </section>
     );

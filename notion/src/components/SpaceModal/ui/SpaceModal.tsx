@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import clsx from "clsx";
 import cls from "./SpaceModal.module.scss";
-import { Modal } from "ui/Modal/ui/Modal";
+import { Modal } from "ui/Modal/Modal";
 import { Space, TypeSpace } from "pages/MainPage";
 import { MyInput } from "ui/Input/Input";
 import { MyButton, ThemeButton } from "ui/Button/Button";
@@ -10,34 +10,62 @@ import checkImg from "assets/check.png";
 
 interface SpaceModalProps {
     className?: string;
-    onAddNewSpace: (space: Space) => void;
-    isOpen: boolean | Space;
+    onAddNewSpace: (space: Space, oldName?: string) => void;
+    status: { space: Space | null; isOpen: boolean };
     onClose: () => void;
 }
 
 export const SpaceModal: React.FC<SpaceModalProps> = (props) => {
-    const { className = "", onAddNewSpace, isOpen, onClose } = props;
+    const { className = "", onAddNewSpace, status, onClose } = props;
+    const { isOpen, space } = status;
 
-    const [spaceName, setSpaceName] = useState<string>(isOpen);
-    const [spaceType, setSpaceType] = useState<TypeSpace>("notion");
+    const [spaceName, setSpaceName] = useState<string>(space ? space.name : "");
+    const [spaceType, setSpaceType] = useState<TypeSpace>(
+        space ? space.type : "notion"
+    );
 
     const onClickSave = useCallback(() => {
-        const newSpace: Space = {
-            name: spaceName.trim(),
-            fix: null,
-            type: spaceType,
-            records: [],
-        };
+        let newSpace: Space;
+        if (spaceName.trim() === "") {
+            return;
+        }
+        if (space) {
+            newSpace = {
+                name: spaceName.trim(),
+                fix: space.fix,
+                type: spaceType,
+                records: space.records,
+            };
+        } else {
+            newSpace = {
+                name: spaceName.trim(),
+                fix: 0,
+                type: spaceType,
+                records: [],
+            };
+        }
+
         if (newSpace.name === "") return;
 
-        onAddNewSpace(newSpace);
+        onAddNewSpace(newSpace, space?.name);
         setSpaceName("");
     }, [spaceName, spaceType]);
+
+    const onChangeSpaceType = useCallback(
+        (spaceType: TypeSpace) => {
+            if (space) {
+                return;
+            } else {
+                setSpaceType(spaceType);
+            }
+        },
+        [space]
+    );
 
     return (
         <Modal
             className={clsx(cls.spaceModal, {}, [className])}
-            isOpen={!!isOpen}
+            isOpen={isOpen}
             onClose={onClose}
         >
             <div className={cls.modal}>
@@ -56,16 +84,18 @@ export const SpaceModal: React.FC<SpaceModalProps> = (props) => {
                         <MyButton
                             className={clsx(cls.modalType, {
                                 [cls.active]: spaceType === "notion",
+                                [cls.block]: !!space,
                             })}
-                            onClick={() => setSpaceType("notion")}
+                            onClick={() => onChangeSpaceType("notion")}
                         >
                             <img src={pencilImg} alt="pencil" />
                         </MyButton>
                         <MyButton
                             className={clsx(cls.modalType, {
                                 [cls.active]: spaceType === "mark",
+                                [cls.block]: !!space,
                             })}
-                            onClick={() => setSpaceType("mark")}
+                            onClick={() => onChangeSpaceType("mark")}
                         >
                             <img src={checkImg} alt="check" />
                         </MyButton>

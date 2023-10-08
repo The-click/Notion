@@ -1,8 +1,7 @@
 export interface Space {
-    id?: number;
     name: string;
     type: TypeSpace;
-    fix: number | null;
+    fix: number;
     records: Notion[] | Mark[];
 }
 
@@ -13,12 +12,10 @@ export interface Mark extends Notion {
 }
 
 export interface Notion {
-    id?: number;
     title: string;
     text?: string;
-    img?: string;
-    color: NotionColor;
-    fix: number | null;
+    color?: NotionColor;
+    fix: number;
     order?: number;
 }
 

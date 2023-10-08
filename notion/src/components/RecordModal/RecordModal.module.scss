@@ -1,0 +1,107 @@
+.modal {
+    width: 650px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px 0 10px;
+    align-items: center;
+}
+
+.modalTitle {
+    margin-bottom: 50px;
+}
+.modalContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.modalRecordTitle {
+    padding: 5px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+.modalRecordText {
+    padding: 5px;
+    border-radius: 10px;
+    height: 300px;
+    margin-bottom: 20px;
+}
+
+button.modalSave {
+    background-color: green;
+    color: var(--primary-color);
+    font-size: initial;
+    margin: 0 auto;
+}
+
+input.modalTitle {
+    background-color: var(--invert-bg-color);
+    width: 100%;
+    color: var(--primary-color);
+}
+
+.modalSwitch {
+    background-color: var(--bg-color);
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+.modalColor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 5px;
+    & span {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
+    &.black span {
+        background-color: var(--black-color);
+    }
+    &.blue span {
+        background-color: var(--blue-color);
+    }
+    &.gray span {
+        background-color: var(--gray-color);
+    }
+    &.green span {
+        background-color: var(--green-color);
+    }
+    &.red span {
+        background-color: var(--red-color);
+    }
+    &.white span {
+        background-color: var(--white-color);
+    }
+    &.yellow span {
+        background-color: var(--yellow-color);
+    }
+
+    &.active {
+        box-shadow: 0 0 1px 2px rgba($color: #fff, $alpha: 0.2);
+        transform: scale(1.2);
+    }
+}
+
+button.modalType {
+    padding: 5px;
+    border-radius: inherit;
+    transition: all 0.3s ease;
+}
+button.modalType img {
+    width: 30px;
+}
+.modalType.active {
+    background-color: var(--blue-color);
+}
+.modalType.block:not(.active) {
+    opacity: 0.5;
+}

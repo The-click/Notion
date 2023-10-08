@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo } from "react";
 import clsx from "clsx";
 import cls from "./SpaceTitle.module.scss";
 import { Space } from "pages/MainPage";
@@ -7,6 +7,7 @@ import pencilImg from "assets/pencil.png";
 import secureImg from "assets/булавка.png";
 import trashImg from "assets/мусор.png";
 import penImg from "assets/pen.svg";
+import DoSecuredImg from "assets/push-pin.png";
 import { MyButton } from "ui/Button/Button";
 
 interface SpaceTitleProps {
@@ -15,6 +16,7 @@ interface SpaceTitleProps {
     changeSpace: (space?: Space) => void;
     onSelectSpace: (name: string) => void;
     deleteSpace: (name: string) => void;
+    changeFixSpace: (name: string, value: number) => void;
     select: boolean;
 }
 
@@ -25,6 +27,7 @@ export const SpaceTitle: React.FC<SpaceTitleProps> = memo((props) => {
         changeSpace,
         onSelectSpace,
         deleteSpace,
+        changeFixSpace,
         select,
     } = props;
 
@@ -35,19 +38,25 @@ export const SpaceTitle: React.FC<SpaceTitleProps> = memo((props) => {
                 className,
             ])}
         >
+            {space.fix > 0 && (
+                <img src={DoSecuredImg} alt="secured" className={cls.secured} />
+            )}
             <img
                 className={cls.icon}
                 src={space.type === "notion" ? pencilImg : checkImg}
                 alt="icon"
             />
-            <h2
-                onDoubleClick={() => console.log("dbl click")}
-                className={cls.text}
-            >
-                {space.name}
-            </h2>
+            <h2 className={cls.text}>{space.name}</h2>
             <div className={cls.setting} onClick={(e) => e.stopPropagation()}>
-                <MyButton className={cls.btn}>
+                <MyButton
+                    className={cls.btn}
+                    onClick={() =>
+                        changeFixSpace(
+                            space.name,
+                            space.fix > 0 ? 0 : +new Date()
+                        )
+                    }
+                >
                     <img src={secureImg} alt="secured space" />
                 </MyButton>
                 <MyButton

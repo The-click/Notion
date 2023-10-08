@@ -8,17 +8,33 @@ import { MyButton } from "ui/Button/Button";
 
 interface SearchBarProps {
     className?: string;
+    searchText: string;
+    onChangeSearch: (text: string) => void;
+    onCreateRecord: () => void;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = (props) => {
-    const { className = "" } = props;
+    const {
+        className = "",
+        searchText,
+        onChangeSearch,
+        onCreateRecord,
+    } = props;
 
     return (
         <section className={clsx(cls.searchBar, {}, [className])}>
             <img className={cls.icon} src={searchImg} alt="search img" />
-            <MyInput className={cls.input} placeholder="Найти запись" />
+            <MyInput
+                onChange={onChangeSearch}
+                value={searchText}
+                className={cls.input}
+                placeholder="Найти запись"
+            />
 
-            <MyButton className={cls.addNotion}>
+            <MyButton
+                className={cls.addNotion}
+                onClick={() => onCreateRecord()}
+            >
                 <img src={plusImg} alt="add notion" />
             </MyButton>
         </section>
